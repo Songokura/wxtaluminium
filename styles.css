@@ -443,11 +443,11 @@ html[lang="kk"] .hero .lead{max-width:30em}
 .kl dd{font-size:17px}
 .kl a{border-bottom:1px solid var(--gold-t)}
 .k-btns{display:flex;flex-wrap:wrap;gap:10px}
-.siteplan{position:relative;display:block;height:100%;min-height:340px;border:1.5px solid var(--ink);background:var(--paper);overflow:hidden;box-shadow:14px 14px 0 -1px var(--alu),14px 14px 0 0 var(--ink)}
+.duo-kont .duo-m{align-self:center}
+.siteplan{position:relative;display:block;aspect-ratio:640/440;border:1.5px solid var(--ink);background:var(--paper);overflow:hidden;box-shadow:14px 14px 0 -1px var(--alu),14px 14px 0 0 var(--ink)}
 .siteplan svg{position:absolute;inset:0;width:100%;height:100%;transition:transform var(--t3) var(--ease)}
-@media(hover:hover) and (pointer:fine){.siteplan:hover svg{transform:scale(1.04)}}
 .sp-axis{animation:flow2 1.6s linear infinite}
-.sp-pin{position:absolute;left:66.7%;top:50%;transform:translate(-50%,-100%);padding-bottom:26px}
+.sp-pin{position:absolute;left:65.7%;top:68.18%;transform:translate(-50%,-100%);padding-bottom:26px}
 .sp-pin b{display:block;background:var(--ink);color:#fff;font:500 14px/1 var(--f-t);padding:10px 12px;white-space:nowrap}
 .sp-pin::before{content:"";position:absolute;left:50%;bottom:6px;width:1.5px;height:20px;background:var(--ink)}
 .sp-pin::after{content:"";position:absolute;left:50%;bottom:0;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 1.5px var(--ink);animation:ping 2.2s var(--ease) 1.2s 3}
@@ -504,3 +504,4 @@ html[lang="kk"] .hero .lead{max-width:30em}
 }
 .nw{white-space:nowrap}
 @media(max-width:760px){.p-reveal img{object-position:50% 55%}}
+@media(max-width:620px){.sp-pin{padding-bottom:18px}.sp-pin::before{height:13px}.sp-pin::after{width:9px;height:9px;margin-left:-4.5px}.sp-pin b{font-size:12px;padding:6px 8px}}
