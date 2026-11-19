@@ -335,7 +335,18 @@
       .to(pl, { scale: function () { return K; }, backgroundColor: '#F3F5F6', duration: .25, ease: 'power2.in' }, .75)
       .to(sash, { autoAlpha: 0, duration: .08 }, .8)
       .to(cam, { scale: function () { return S * 1.2; }, duration: .25, force3D: touch }, .75)
-      .to('.l-mnt,.l-city', { y: function () { return dy + gy * (S * 1.2 - 1); }, duration: .25 }, .75);
+      .to('.l-mnt,.l-city', { y: function () { return dy + gy * (S * 1.2 - 1); }, duration: .25 }, .75)
+      .fromTo('.p-reveal', { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1, duration: .2, ease: 'power2.out' }, .8);
+    /* после смены размера окна refreshInit видит старую ширину закреплённого героя - перемеряем после пересчёта */
+    var sig = '';
+    ST.addEventListener('refresh', function () {
+      measure();
+      var n = [S, K, dx, dy, gy].map(function (v) { return v.toFixed(2); }).join();
+      if (n === sig) return;
+      sig = n;
+      var p = zoom.progress();
+      zoom.progress(0).invalidate().progress(p);
+    });
 
     /* Секции ниже первого экрана настраиваются кусками в свободное время - не держим главный поток одним длинным заданием */
     var tasks = [];
