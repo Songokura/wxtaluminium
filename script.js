@@ -236,7 +236,9 @@
   });
   /* один отложенный пересчёт ScrollTrigger вместо нескольких подряд (шрифты, load) */
   var rT = 0;
-  function softRefresh() { if (!ST) return; clearTimeout(rT); rT = setTimeout(function () { ST.refresh(); }, 150); }
+  function softRefresh() { if (!ST) return; clearTimeout(rT); rT = setTimeout(function () { if (d.hidden) { pendR = true; return; } ST.refresh(); }, 150); }
+  var pendR = false;
+  d.addEventListener('visibilitychange', function () { if (!d.hidden && pendR) { pendR = false; softRefresh(); } });
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { fitHero(); placePills(); softRefresh(); });
   ruler();
 
@@ -300,12 +302,12 @@
     G.from('.hdr', { yPercent: -120, duration: 1, ease: E, delay: .1, clearProps: 'transform' });
 
     /* --- герой: наезд на террасу, створка PS-портала уходит вбок --- */
-    var S = 3, K = 20, dx = 0, dy = 0, gy = 0;
+    var S = 3, K = 20, dx = 0, dy = 0, gy = 0, ox = 0, oy = 0;
+    /* замер зовётся из первой функции таймлайна: GSAP пересчитывает её после каждого refresh, когда раскладка уже новая */
     function measure() {
-      var ox = bld.offsetLeft + pl.offsetLeft + pl.offsetWidth / 2;
-      var oy = bld.offsetTop + pl.offsetTop + pl.offsetHeight * .6;
+      ox = bld.offsetLeft + pl.offsetLeft + pl.offsetWidth / 2;
+      oy = bld.offsetTop + pl.offsetTop + pl.offsetHeight * .6;
       var vw = window.innerWidth, vh = window.innerHeight;
-      G.set(cam, { transformOrigin: ox + 'px ' + oy + 'px' });
       S = Math.min(6.5, Math.max(2.2, Math.max(vw * .15, 120) / pl.offsetWidth));
       K = 2.5 * Math.sqrt(vw * vw + vh * vh) / (pl.offsetWidth * S);
       var r = cam.getBoundingClientRect();
@@ -314,16 +316,16 @@
       gy = pl.offsetHeight * .43;
     }
     measure();
-    ST.addEventListener('refreshInit', measure);
     var zoom = G.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
-        trigger: '.hero', start: 'bottom bottom', end: function () { return '+=' + window.innerHeight * (mob ? .9 : 1.5); },
-        pin: true, scrub: .6, invalidateOnRefresh: true, anticipatePin: 1,
+        trigger: '.hero', start: 'bottom bottom', end: function () { return '+=' + Math.max(window.innerHeight, 480) * (mob ? .9 : 1.5); },
+        pin: true, scrub: .6, invalidateOnRefresh: true,
         onToggle: function (self) { scene.classList.toggle('is-zoom', self.isActive); }
       }
     });
-    zoom.to('.hero-txt', { y: -70, autoAlpha: 0, duration: .2, ease: 'power1.in' }, 0)
+    zoom.set(cam, { transformOrigin: function () { measure(); return ox + 'px ' + oy + 'px'; } }, 0)
+      .to('.hero-txt', { y: -70, autoAlpha: 0, duration: .2, ease: 'power1.in' }, 0)
       .to('.chain', { autoAlpha: 0, y: 30, duration: .14 }, 0)
       .to('.co,.co-lines', { autoAlpha: 0, duration: .12 }, .02)
       .to(cam, { scale: function () { return S; }, x: function () { return dx; }, y: function () { return dy; }, duration: .56, ease: 'power2.inOut', force3D: touch }, 0)
@@ -337,16 +339,6 @@
       .to(cam, { scale: function () { return S * 1.2; }, duration: .25, force3D: touch }, .75)
       .to('.l-mnt,.l-city', { y: function () { return dy + gy * (S * 1.2 - 1); }, duration: .25 }, .75)
       .fromTo('.p-reveal', { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1, duration: .2, ease: 'power2.out' }, .8);
-    /* после смены размера окна refreshInit видит старую ширину закреплённого героя - перемеряем после пересчёта */
-    var sig = '';
-    ST.addEventListener('refresh', function () {
-      measure();
-      var n = [S, K, dx, dy, gy].map(function (v) { return v.toFixed(2); }).join();
-      if (n === sig) return;
-      sig = n;
-      var p = zoom.progress();
-      zoom.progress(0).invalidate().progress(p);
-    });
 
     /* Секции ниже первого экрана настраиваются кусками в свободное время - не держим главный поток одним длинным заданием */
     var tasks = [];
