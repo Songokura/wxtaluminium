@@ -435,7 +435,12 @@ html[lang="kk"] .hero .lead{max-width:30em}
 /* ================= контакты ================= */
 .duo-kont{align-items:stretch}
 .duo-kont .duo-t{align-content:start}
-.duo-kont .duo-t{min-width:0;container-type:inline-size}
+.duo-kont .duo-t{min-width:0;container-type:inline-size;grid-column:span 7}
+.duo-kont .duo-m{grid-column:span 5;align-self:center}
+.duo-kont .kl{grid-template-columns:minmax(0,1fr);gap:0}
+.duo-kont .kl>div{padding:18px 0;border-top:1px solid var(--line,#C5CDD3)}
+.duo-kont .kl>div:last-child{border-bottom:1px solid var(--line,#C5CDD3)}
+@media(max-width:980px){.duo-kont .duo-t,.duo-kont .duo-m{grid-column:auto}.duo-kont .duo-m{order:0}}
 .big-tel{font:600 clamp(28px,8.4cqi,76px)/1 var(--f-d);letter-spacing:-.01em;white-space:nowrap;background:linear-gradient(var(--gold),var(--gold)) 0 100%/0 6px no-repeat;transition:background-size var(--t3) var(--ease)}
 .big-tel:hover{background-size:100% 6px}
 .kl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px;width:100%}
@@ -443,14 +448,7 @@ html[lang="kk"] .hero .lead{max-width:30em}
 .kl dd{font-size:17px}
 .kl a{border-bottom:1px solid var(--gold-t)}
 .k-btns{display:flex;flex-wrap:wrap;gap:10px}
-.duo-kont .duo-m{align-self:center}
-.siteplan{position:relative;display:block;aspect-ratio:640/440;border:1.5px solid var(--ink);background:var(--paper);overflow:hidden;box-shadow:14px 14px 0 -1px var(--alu),14px 14px 0 0 var(--ink)}
-.siteplan svg{position:absolute;inset:0;width:100%;height:100%;transition:transform var(--t3) var(--ease)}
 .sp-axis{animation:flow2 1.6s linear infinite}
-.sp-pin{position:absolute;left:65.7%;top:68.18%;transform:translate(-50%,-100%);padding-bottom:26px}
-.sp-pin b{display:block;background:var(--ink);color:#fff;font:500 14px/1 var(--f-t);padding:10px 12px;white-space:nowrap}
-.sp-pin::before{content:"";position:absolute;left:50%;bottom:6px;width:1.5px;height:20px;background:var(--ink)}
-.sp-pin::after{content:"";position:absolute;left:50%;bottom:0;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 1.5px var(--ink);animation:ping 2.2s var(--ease) 1.2s 3}
 @media(max-width:560px){.kl{grid-template-columns:minmax(0,1fr)}.k-btns .btn{flex:1 1 100%}}
 
 /* ================= подвал ================= */
@@ -504,4 +502,3 @@ html[lang="kk"] .hero .lead{max-width:30em}
 }
 .nw{white-space:nowrap}
 @media(max-width:760px){.p-reveal img{object-position:50% 55%}}
-@media(max-width:620px){.sp-pin{padding-bottom:18px}.sp-pin::before{height:13px}.sp-pin::after{width:9px;height:9px;margin-left:-4.5px}.sp-pin b{font-size:12px;padding:6px 8px}}

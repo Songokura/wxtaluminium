@@ -445,8 +445,7 @@
       G.from('#faqList details', { opacity: 0, y: 22, duration: .7, stagger: .07, scrollTrigger: { trigger: '#faqList', start: 'top 80%', once: true } });
       G.from('#form > *', { opacity: 0, y: 22, duration: .7, stagger: .07, clearProps: 'transform', scrollTrigger: { trigger: '#form', start: 'top 80%', once: true } });
       G.from('#opening', { opacity: 0, scale: .94, duration: 1.1, ease: E, scrollTrigger: { trigger: '#opening', start: 'top 80%', once: true } });
-      G.from('#siteplan', { opacity: 0, y: 40, duration: 1, ease: E, scrollTrigger: { trigger: '#siteplan', start: 'top 82%', once: true } });
-      G.from('.sp-pin b', { y: -40, opacity: 0, duration: .9, ease: 'bounce.out', scrollTrigger: { trigger: '#siteplan', start: 'top 60%', once: true } });
+      G.from('.duo-kont .kl > div', { opacity: 0, y: 22, duration: .7, stagger: .08, scrollTrigger: { trigger: '.duo-kont', start: 'top 80%', once: true } });
     });
 
     var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 16); };
