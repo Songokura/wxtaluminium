@@ -3,6 +3,20 @@
   var d = document, root = d.documentElement;
   var $ = function (s, c) { return (c || d).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || d).querySelectorAll(s)); };
+
+  /* ---------- конверсии Google Ads ---------- */
+  function conv(key) {
+    var id = (window.WXT_CONV || {})[key];
+    if (!id || typeof window.gtag !== 'function') return;
+    window.gtag('event', 'conversion', { send_to: id, value: 1.0, currency: 'USD', transport_type: 'beacon' });
+  }
+  d.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (h.indexOf('tel:') === 0) conv('phone');
+    else if (h.indexOf('wa.me') > -1 || h.indexOf('mailto:') === 0) conv('contact');
+  }, true);
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var G = window.gsap, ST = window.ScrollTrigger;
   var motion = !!(G && ST) && !reduce;
@@ -218,6 +232,7 @@
     var txt = t('wa.form').replace('{n}', n.value.trim()).replace('{p}', p.value.trim())
       .replace('{d}', dirSel.options[dirSel.selectedIndex].text).replace('{m}', form.elements.msg.value.trim() || '-');
     $('#formOk').hidden = false;
+    conv('lead');
     window.open(WA + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
   });
 
