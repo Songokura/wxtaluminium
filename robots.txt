@@ -9,4 +9,4 @@ Allow: /
 Disallow: /assets/lang/
 Disallow: /*lang=kk
 
-Sitemap: https://songokura.github.io/wxtaluminium/sitemap.xml
+Sitemap: https://aluminium.wxt-trade.kz/sitemap.xml
